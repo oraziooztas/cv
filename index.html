@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orazio Oztas · Agent Evals &amp; AI Workflows</title>
+<meta name="description" content="MSc computational linguistics student building eval harnesses and agent workflows. Published failure taxonomy, MCP tooling, humanities-grade writing.">
+<meta property="og:title" content="Orazio Oztas · Agent Evals &amp; AI Workflows">
+<meta property="og:description" content="I test AI agents until they break, then document exactly how.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://oraziooztas.github.io/cv/">
+<meta property="og:image" content="https://oraziooztas.github.io/cv/me.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060a'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='28' fill='%2322d3ee' text-anchor='middle'%3EOO%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ORAZIO OZTAS · WEB CV
+   Hand-rolled HTML/CSS/JS. No framework, no build step.
+   Design language: evidence-first instrument panel.
+   ============================================================ */
+
+:root {
+  --bg: #05060a;
+  --bg-raise: #0a0c12;
+  --surface: rgba(255, 255, 255, 0.028);
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.085);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #e6eaf2;
+  --text-2: #9aa6ba;
+  --text-3: #5f6b80;
+  --accent: #22d3ee;
+  --accent-soft: rgba(34, 211, 238, 0.13);
+  --accent-2: #818cf8;
+  --pass: #4ade80;
+  --font-sans: "Geist", "SF Pro Display", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(34, 211, 238, 0.28); color: #fff; }
+
+/* ---------- atmosphere ---------- */
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 55% 42% at 18% -8%, rgba(34, 211, 238, 0.09), transparent 62%),
+    radial-gradient(ellipse 42% 36% at 88% 12%, rgba(129, 140, 248, 0.075), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 108%, rgba(34, 211, 238, 0.05), transparent 65%);
+}
+
+.dotgrid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 0%, transparent 78%);
+}
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+/* ---------- nav ---------- */
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  transition: background 0.4s, border-color 0.4s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(5, 6, 10, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 26px; align-items: center; }
+.nav-links a {
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 12.5px !important;
+  color: var(--accent) !important;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  padding: 7px 14px;
+  border-radius: 8px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav-cta:hover { background: var(--accent-soft); border-color: var(--accent); }
+
+/* ---------- hero ---------- */
+
+.hero { padding: 158px 0 64px; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  gap: 56px;
+  align-items: center;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-3);
+  margin-bottom: 22px;
+  letter-spacing: 0.01em;
+}
+.kicker b { color: var(--accent); font-weight: 500; }
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 13px;
+  border-radius: 99px;
+  margin-bottom: 26px;
+}
+.status .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--pass);
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
+  animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
+  70% { box-shadow: 0 0 0 9px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+h1 {
+  font-size: clamp(38px, 5.4vw, 62px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+}
+h1 .shimmer {
+  background: linear-gradient(100deg, var(--accent) 20%, var(--accent-2) 45%, var(--accent) 70%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5.5s linear infinite;
+}
+@keyframes shimmer { to { background-position: -220% 0; } }
+
+.hero-sub {
+  font-size: 17.5px;
+  color: var(--text-2);
+  max-width: 560px;
+  margin-bottom: 34px;
+}
+.hero-sub em { font-style: normal; color: var(--text); }
+
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 11px 20px;
+  border-radius: 10px;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s, background 0.25s, border-color 0.25s;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: linear-gradient(135deg, #0ea5c4, #22d3ee);
+  color: #03181d;
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.35), 0 8px 28px -8px rgba(34, 211, 238, 0.45);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.55), 0 14px 34px -8px rgba(34, 211, 238, 0.55); }
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover { transform: translateY(-2px); border-color: var(--border-strong); background: var(--surface-hover); }
+.btn svg { width: 15px; height: 15px; }
+
+/* avatar */
+.avatar-zone { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.avatar {
+  position: relative;
+  width: 236px;
+  height: 236px;
+}
+.avatar-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 33%;
+  background: conic-gradient(from var(--spin, 0deg), rgba(34,211,238,0), rgba(34,211,238,0.85), rgba(129,140,248,0.75), rgba(34,211,238,0));
+  animation: ringspin 7s linear infinite;
+  filter: blur(0.6px);
+}
+@property --spin { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes ringspin { to { --spin: 360deg; } }
+.avatar-glow {
+  position: absolute;
+  inset: -34px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 68%);
+  z-index: -1;
+}
+/* PHOTO SWAP: drop a square photo named `me.jpg` next to this file
+   and replace the div.avatar-inner content with:
+   <img src="me.jpg" alt="Orazio Oztas">                      */
+.avatar-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 32%;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(34, 211, 238, 0.13), transparent 55%),
+    linear-gradient(160deg, #10131c, #07080d);
+  border: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-mono {
+  font-family: var(--font-mono);
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #e6eaf2, #64748b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.avatar-caption {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+/* stats strip */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-top: 66px;
+  overflow: hidden;
+}
+.stat {
+  padding: 22px 24px;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-n {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.stat-n span { color: var(--accent); }
+.stat-l {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+  margin-top: 3px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- terminal ---------- */
+
+.term-section { padding: 40px 0 10px; }
+.terminal {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(7, 9, 14, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px -22px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+}
+.term-bar i {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: #2c3140;
+}
+.term-bar i:nth-child(1) { background: #f8615a; }
+.term-bar i:nth-child(2) { background: #fbbf3f; }
+.term-bar i:nth-child(3) { background: #3fcb5a; }
+.term-title {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.term-body {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.85;
+  padding: 20px 22px 24px;
+  min-height: 246px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.t-prompt { color: var(--text-3); }
+.t-cmd { color: var(--text); }
+.t-dim { color: var(--text-3); }
+.t-pass { color: var(--pass); }
+.t-name { color: var(--text); font-weight: 500; }
+.t-meta { color: var(--text-2); }
+.t-accent { color: var(--accent); }
+.t-cursor {
+  display: inline-block;
+  width: 8px; height: 15px;
+  background: var(--accent);
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---------- sections ---------- */
+
+section { padding: 96px 0 8px; }
+.sec-head { margin-bottom: 44px; }
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.sec-label::after {
+  content: "";
+  height: 1px;
+  width: 64px;
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.5), transparent);
+}
+h2 {
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.sec-sub { color: var(--text-2); max-width: 620px; font-size: 16px; }
+
+/* ---------- proof of work: bento ---------- */
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 26px;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), border-color 0.35s, background 0.35s;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34, 211, 238, 0.3);
+  background: var(--surface-hover);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(34, 211, 238, 0.09), transparent 42%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.card:hover::before { opacity: 1; }
+.card.featured { grid-column: span 2; }
+.card.featured .card-desc { max-width: 92%; }
+.card.wide { grid-column: span 2; }
+.card.more-card {
+  border-style: dashed;
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+.card.more-card:hover { border-color: rgba(34, 211, 238, 0.35); background: var(--surface); }
+.more-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-2);
+}
+.more-list {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 2;
+}
+
+.card-top { display: flex; align-items: center; gap: 10px; }
+.card-title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: var(--pass);
+  background: rgba(74, 222, 128, 0.07);
+}
+.badge.wip { border-color: rgba(251, 191, 63, 0.35); color: #fbbf3f; background: rgba(251, 191, 63, 0.06); }
+.card-desc { color: var(--text-2); font-size: 14.5px; }
+.card-desc strong { color: var(--text); font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; }
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 99px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.card:hover .chip { color: var(--text-2); }
+.card-link {
+  position: absolute;
+  top: 22px; right: 22px;
+  color: var(--text-3);
+  transition: color 0.25s, transform 0.25s;
+}
+.card-link:hover { color: var(--accent); transform: translate(2px, -2px); }
+.card-link svg { width: 17px; height: 17px; }
+a.card { text-decoration: none; color: inherit; }
+
+/* ---------- stack ---------- */
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.stack-col {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 26px;
+  transition: border-color 0.35s, transform 0.35s var(--ease);
+}
+.stack-col:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+.stack-tier {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.stack-col:nth-child(1) .stack-tier { color: var(--pass); }
+.stack-col:nth-child(2) .stack-tier { color: var(--accent); }
+.stack-col:nth-child(3) .stack-tier { color: var(--accent-2); }
+.stack-note { font-size: 13px; color: var(--text-3); margin-bottom: 18px; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-2);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border);
+  padding: 6px 13px;
+  border-radius: 9px;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  cursor: default;
+}
+.pill:hover { border-color: rgba(34, 211, 238, 0.4); color: var(--text); background: var(--accent-soft); }
+.stack-foot {
+  margin-top: 26px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-3);
+  text-align: center;
+}
+.stack-foot b { color: var(--text-2); font-weight: 500; }
+
+/* ---------- background ---------- */
+
+.bg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 30px;
+}
+.panel h3 {
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.panel h3 svg { width: 17px; height: 17px; color: var(--accent); }
+.tl { list-style: none; }
+.tl li {
+  position: relative;
+  padding: 0 0 22px 26px;
+  border-left: 1px solid var(--border);
+  margin-left: 7px;
+}
+.tl li:last-child { padding-bottom: 4px; border-left-color: transparent; }
+.tl li::before {
+  content: "";
+  position: absolute;
+  left: -4.5px;
+  top: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+.tl-when {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+  letter-spacing: 0.03em;
+}
+.tl-what { font-size: 15px; font-weight: 600; color: var(--text); margin: 2px 0; }
+.tl-note { font-size: 13.5px; color: var(--text-2); }
+.hl { color: var(--accent); font-weight: 600; }
+
+.human-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.human-list li { display: flex; gap: 14px; font-size: 14.5px; color: var(--text-2); }
+.human-list .tick {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 7px;
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: var(--pass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 1px;
+}
+.human-list strong { color: var(--text); font-weight: 600; }
+
+/* ---------- contact ---------- */
+
+.contact { padding-bottom: 40px; }
+.contact-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse 60% 90% at 50% -20%, rgba(34, 211, 238, 0.1), transparent 60%),
+    var(--surface);
+  padding: 68px 40px;
+  text-align: center;
+  overflow: hidden;
+}
+.contact-card h2 { margin-bottom: 14px; }
+.contact-sub { color: var(--text-2); max-width: 480px; margin: 0 auto 34px; }
+.contact-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.email-note {
+  margin-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+  min-height: 18px;
+  transition: color 0.3s;
+}
+.email-note.copied { color: var(--pass); }
+
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 70px;
+  padding: 30px 0 40px;
+}
+.foot-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+}
+.foot-inner a { color: var(--text-2); text-decoration: none; }
+.foot-inner a:hover { color: var(--accent); }
+
+/* ---------- reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* ---------- focus & motion ---------- */
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .avatar-zone { order: -1; align-items: flex-start; }
+  .avatar { width: 168px; height: 168px; }
+  .avatar-mono { font-size: 40px; }
+  .hero { padding-top: 128px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .bento { grid-template-columns: 1fr 1fr; }
+  .card.featured, .card.more-card { grid-column: span 2; }
+  .stack-grid { grid-template-columns: 1fr; }
+  .bg-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .bento { grid-template-columns: 1fr; }
+  .card.featured, .card.wide, .card.more-card { grid-column: span 1; }
+  section { padding-top: 72px; }
+  .stats { margin-top: 48px; }
+  .stat { padding: 18px; }
+  .stat-n { font-size: 23px; }
+  .contact-card { padding: 52px 22px; }
+  .term-body { font-size: 12px; min-height: 230px; }
+  .wrap { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="atmosphere"></div>
+<div class="dotgrid"></div>
+<div class="grain"></div>
+
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">orazio<span>@</span>oztas<span>:~</span></a>
+    <div class="nav-links">
+      <a href="#work">Proof of work</a>
+      <a href="#stack">Stack</a>
+      <a href="#background">Background</a>
+      <a class="nav-cta" href="mailto:orazio.oztas@gmail.com">get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker reveal"><b>~/orazio-oztas</b> · agent evals · Torino → Louvain-la-Neuve</p>
+        <div class="status reveal" style="--d:.05s"><span class="dot"></span>open to AI engineering &amp; DevRel roles</div>
+        <h1 class="reveal" style="--d:.1s">I test AI agents <span class="shimmer">until they break.</span><br>Then I document exactly how.</h1>
+        <p class="hero-sub reveal" style="--d:.18s">MSc student in computational linguistics at the University of Turin, building <em>eval harnesses and agent workflows</em> on my own hardware and publishing what holds up. Before the terminal came a humanities degree, so the writing keeps pace with the code.</p>
+        <div class="cta-row reveal" style="--d:.26s">
+          <a class="btn btn-primary" href="#work">See the evidence
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/oraziooztas" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-1.94c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+            GitHub
+          </a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/orazio-oztas-a48848232" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.55V9h3.57v11.45Z"/></svg>
+            LinkedIn
+          </a>
+          <button class="btn btn-ghost" id="copyEmail" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 7 9-7"/></svg>
+            copy email
+          </button>
+        </div>
+      </div>
+
+      <div class="avatar-zone reveal" style="--d:.2s">
+        <div class="avatar">
+          <div class="avatar-glow"></div>
+          <div class="avatar-ring"></div>
+          <div class="avatar-inner"><img src="me.jpg" alt="Orazio Oztas"></div>
+        </div>
+        <p class="avatar-caption">// me.jpg · build passing</p>
+      </div>
+    </div>
+
+    <div class="stats reveal" style="--d:.32s">
+      <div class="stat"><div class="stat-n">12<span>+</span></div><div class="stat-l">failure modes in published taxonomy</div></div>
+      <div class="stat"><div class="stat-n">10</div><div class="stat-l">agent task specs w/ hidden checks</div></div>
+      <div class="stat"><div class="stat-n">2,300<span>+</span></div><div class="stat-l">docs in semantic-search vault</div></div>
+      <div class="stat"><div class="stat-n">100<span>h</span></div><div class="stat-l">paid teaching, hardest audience: kids</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TERMINAL ================= -->
+<div class="term-section">
+  <div class="wrap">
+    <div class="terminal reveal" id="terminal">
+      <div class="term-bar"><i></i><i></i><i></i><span class="term-title">oztas — hiring-eval — 80×14</span></div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PROOF OF WORK ================= -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">01 / proof of work</div>
+      <h2>Projects I can defend line by line.</h2>
+      <p class="sec-sub">The flagship ships with its own audit trail: allow-listed bundle, SHA-256 manifest, independent regrade. Adjectives are cheap, manifests aren't.</p>
+    </div>
+
+    <div class="bento">
+      <div class="card featured reveal">
+        <a class="card-link" href="https://github.com/oraziooztas/agent-failure-eval-bench" target="_blank" rel="noopener" aria-label="agent-failure-eval-bench on GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+        <div class="card-top"><span class="card-title">agent-failure-eval-bench</span><span class="badge">public · MIT</span></div>
+        <p class="card-desc">A compact benchmark for coding agents: <strong>10 task specs, 3 executable fixtures with hidden checks, a 12-mode failure taxonomy (F01–F12)</strong> and a grading rubric, validated through a cross-model pilot with independent regrade. Deliberately not a leaderboard. The craft on display is task design and benchmark hygiene, the part most evals get wrong.</p>
+        <div class="chips"><span class="chip">eval design</span><span class="chip">failure taxonomy</span><span class="chip">rubrics</span><span class="chip">python</span><span class="chip">json schemas</span></div>
+      </div>
+
+      <div class="card reveal" style="--d:.08s">
+        <div class="card-top"><span class="card-title">gstack</span><span class="badge">daily driver</span></div>
+        <p class="card-desc">A workflow suite that turns one raw idea into a full sprint: forcing questions, CEO-level plan review, adversarial review, QA, ship. <strong>Five chained skills built in a single sprint</strong>, orchestrating subagents end to end.</p>
+        <div class="chips"><span class="chip">agent orchestration</span><span class="chip">claude code</span><span class="chip">subagents</span></div>
+      </div>
+
+      <div class="card reveal" style="--d:.12s">
+        <div class="card-top"><span class="card-title">message-to-action-it</span></div>
+        <p class="card-desc">Takes messy Italian messages and turns them into <strong>executed steps</strong> through Model Context Protocol servers. Built to make "do the thing I just said" an actual interface.</p>
+        <div class="chips"><span class="chip">MCP</span><span class="chip">python</span><span class="chip">automation</span></div>
+      </div>
+
+      <div class="card reveal" style="--d:.16s">
+        <div class="card-top"><span class="card-title">sae-early-warning</span><span class="badge wip">thesis · active</span></div>
+        <p class="card-desc">MSc thesis research: <strong>sparse autoencoders as early-warning signals</strong> in multi-agent dialogue. SAE inference runs locally on Apple Silicon, eval discipline borrowed from the bench above.</p>
+        <div class="chips"><span class="chip">interpretability</span><span class="chip">MLX</span><span class="chip">LangGraph</span><span class="chip">DSPy</span></div>
+      </div>
+
+      <div class="card reveal" style="--d:.2s">
+        <div class="card-top"><span class="card-title">personal-os</span><span class="badge">daily driver</span></div>
+        <p class="card-desc">The context layer every agent I run reads first: a <strong>2,300+ document vault with semantic search</strong>, cross-session memory, and 100+ custom skills wired into Claude Code, Codex and Antigravity.</p>
+        <div class="chips"><span class="chip">RAG</span><span class="chip">vector search</span><span class="chip">knowledge architecture</span></div>
+      </div>
+
+      <div class="card wide reveal" style="--d:.24s">
+        <div class="card-top"><span class="card-title">multi-agent-financial-analyzer</span></div>
+        <p class="card-desc">Multi-agent pipeline for financial research: <strong>specialised agents split the work, one synthesiser writes the memo</strong>. An early lesson in why orchestration needs evals.</p>
+        <div class="chips"><span class="chip">multi-agent</span><span class="chip">LangGraph</span><span class="chip">python</span></div>
+      </div>
+
+      <a class="card more-card reveal" style="--d:.28s" href="https://github.com/oraziooztas" target="_blank" rel="noopener" aria-label="More projects on GitHub">
+        <span class="more-title">more on github →</span>
+        <span class="more-list">PaperRadar · JobApply<br>Super Voice Assistant</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STACK ================= -->
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">02 / core stack</div>
+      <h2>Tools, sorted by honesty.</h2>
+      <p class="sec-sub">Three tiers, self-graded the way I'd grade an agent: by observed behaviour, not by claimed capability.</p>
+    </div>
+
+    <div class="stack-grid">
+      <div class="stack-col reveal">
+        <div class="stack-tier">■ daily drivers</div>
+        <p class="stack-note">used every day, would bet a deadline on them</p>
+        <div class="pills">
+          <span class="pill">Claude Code · agent tooling</span>
+          <span class="pill">MCP servers &amp; hooks</span>
+          <span class="pill">Python · uv · ruff</span>
+          <span class="pill">eval &amp; rubric design</span>
+          <span class="pill">vector search / RAG</span>
+          <span class="pill">git · gh CLI</span>
+          <span class="pill">prompt systems</span>
+        </div>
+      </div>
+      <div class="stack-col reveal" style="--d:.08s">
+        <div class="stack-tier">■ working knowledge</div>
+        <p class="stack-note">shipped real things, still growing depth</p>
+        <div class="pills">
+          <span class="pill">LangGraph</span>
+          <span class="pill">DSPy</span>
+          <span class="pill">MLX · Ollama local inference</span>
+          <span class="pill">corpus linguistics</span>
+          <span class="pill">failure-mode analysis</span>
+          <span class="pill">LaTeX · Pandoc pipelines</span>
+        </div>
+      </div>
+      <div class="stack-col reveal" style="--d:.16s">
+        <div class="stack-tier">■ sharpening now</div>
+        <p class="stack-note">deliberate practice, on a schedule</p>
+        <div class="pills">
+          <span class="pill">PyTorch fundamentals</span>
+          <span class="pill">math for ML</span>
+          <span class="pill">applied statistics</span>
+          <span class="pill">system design</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="stack-foot reveal">no skill bars on this page. <b>bars are unfalsifiable.</b></p>
+  </div>
+</section>
+
+<!-- ================= BACKGROUND ================= -->
+<section id="background">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">03 / the humanities layer</div>
+      <h2>Before agents, I studied stories about machines.</h2>
+      <p class="sec-sub">The unusual part of this profile is not the stack. It's that the stack comes with someone trained to read, write and teach.</p>
+    </div>
+
+    <div class="bg-grid">
+      <div class="panel reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5ZM6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>Education</h3>
+        <ul class="tl">
+          <li>
+            <span class="tl-when">2025 → present</span>
+            <p class="tl-what">MSc Language Technologies &amp; Digital Humanities</p>
+            <p class="tl-note">University of Turin. Computational linguistics track, thesis on SAE-based early warning in multi-agent dialogue.</p>
+          </li>
+          <li>
+            <span class="tl-when">2026 / 27</span>
+            <p class="tl-what">Exchange year, UCLouvain (Belgium)</p>
+            <p class="tl-note">30 ECTS across NLP and language science, selected for the Erasmus programme.</p>
+          </li>
+          <li>
+            <span class="tl-when">2022 → 2025</span>
+            <p class="tl-what">BA DAMS, <span class="hl">110/110 cum laude</span></p>
+            <p class="tl-note">Thesis on science-fiction cinema, artificial intelligence and alignment. Read the alignment problem as culture before touching it as code.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel reveal" style="--d:.1s">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z"/></svg>Why this matters for DevRel</h3>
+        <ul class="human-list">
+          <li><span class="tick">✓</span><div><strong>100 hours of paid teaching.</strong> Thirty tutoring sessions with primary-school kids. If you can hold that room, a developer conference is a quiet Tuesday.</div></li>
+          <li><span class="tick">✓</span><div><strong>Writing is the native skill, not the bolt-on.</strong> Humanities BA first, terminal second. Docs, talks and teaching materials get the same care as the code they explain.</div></li>
+          <li><span class="tick">✓</span><div><strong>Certified C1 English, native Italian.</strong> Comfortable working, writing and presenting in both. French in progress for Belgium.</div></li>
+          <li><span class="tick">✓</span><div><strong>Alignment literacy from two directions.</strong> A thesis on how culture imagines AI risk, now paired with hands-on failure-mode taxonomies.</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <div class="sec-label" style="justify-content:center">04 / run your own eval</div>
+      <h2>The fastest eval is a conversation.</h2>
+      <p class="contact-sub">Based in Turin, in Louvain-la-Neuve for 2026/27. Open to AI engineering, DevRel and research-adjacent work, remote or on site.</p>
+      <div class="contact-row">
+        <a class="btn btn-primary" href="mailto:orazio.oztas@gmail.com">orazio.oztas@gmail.com</a>
+        <a class="btn btn-ghost" href="https://github.com/oraziooztas" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/orazio-oztas-a48848232" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="email-note" id="emailNote">click the address to open your mail client</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 Orazio Oztas</span>
+      <span>hand-rolled HTML/CSS/JS · no framework · no tracker · <a href="https://github.com/oraziooztas" target="_blank" rel="noopener">view the rest of the work →</a></span>
+    </div>
+  </footer>
+</section>
+
+<script>
+/* ---------- nav scroll state ---------- */
+const nav = document.getElementById("nav");
+addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 24), { passive: true });
+
+/* ---------- reveal on scroll ---------- */
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+document.querySelectorAll(".reveal").forEach(el => reduced ? el.classList.add("in") : io.observe(el));
+
+/* ---------- cursor glow on cards ---------- */
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("pointermove", e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    card.style.setProperty("--my", (e.clientY - r.top) + "px");
+  });
+});
+
+/* ---------- copy email ---------- */
+const note = document.getElementById("emailNote");
+document.getElementById("copyEmail").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText("orazio.oztas@gmail.com");
+    note.textContent = "✓ orazio.oztas@gmail.com copied to clipboard";
+    note.classList.add("copied");
+    setTimeout(() => { note.textContent = "click the address to open your mail client"; note.classList.remove("copied"); }, 2600);
+  } catch { location.href = "mailto:orazio.oztas@gmail.com"; }
+});
+
+/* ---------- terminal typing ---------- */
+const LINES = [
+  { t: "cmd",  html: '<span class="t-prompt">$</span> <span class="t-cmd">oztas eval --candidate orazio --suite hiring/v0</span>' },
+  { t: "dim",  html: '<span class="t-dim">▸ loading fixtures ................ ok</span>' },
+  { t: "pass", html: '<span class="t-pass">✓</span> <span class="t-name">agent-failure-eval-bench</span>  <span class="t-meta">public · MIT · 10 tasks · F01–F12 taxonomy</span>' },
+  { t: "pass", html: '<span class="t-pass">✓</span> <span class="t-name">gstack-workflow-suite</span>     <span class="t-meta">5 chained skills shipped in one sprint</span>' },
+  { t: "pass", html: '<span class="t-pass">✓</span> <span class="t-name">message-to-action-it</span>      <span class="t-meta">natural language → executed steps (MCP)</span>' },
+  { t: "pass", html: '<span class="t-pass">✓</span> <span class="t-name">sae-early-warning</span>         <span class="t-meta">SAE inference live on Apple Silicon</span>' },
+  { t: "pass", html: '<span class="t-pass">✓</span> <span class="t-name">humanities-layer</span>          <span class="t-meta">110L cum laude · 100h teaching · C1 English</span>' },
+  { t: "sum",  html: '<span class="t-accent">5 checks passed · 0 inflated claims</span> <span class="t-dim">· full logs on github</span>' }
+];
+
+const body = document.getElementById("termBody");
+let started = false;
+
+function typeLines() {
+  if (started) return;
+  started = true;
+  if (reduced) { body.innerHTML = LINES.map(l => l.html).join("\n"); return; }
+  let i = 0;
+  const cursor = '<span class="t-cursor"></span>';
+  function next() {
+    if (i >= LINES.length) { body.innerHTML = LINES.map(l => l.html).join("\n") + "\n" + cursor; return; }
+    const done = LINES.slice(0, i + 1).map(l => l.html).join("\n");
+    body.innerHTML = done + "\n" + cursor;
+    i++;
+    const delay = LINES[i - 1].t === "cmd" ? 850 : LINES[i - 1].t === "dim" ? 700 : 340;
+    setTimeout(next, delay);
+  }
+  next();
+}
+
+new IntersectionObserver((entries, obs) => {
+  if (entries[0].isIntersecting) { typeLines(); obs.disconnect(); }
+}, { threshold: 0.35 }).observe(document.getElementById("terminal"));
+</script>
+
+</body>
+</html>
